@@ -1,0 +1,1232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phillcode Agent Training Platform</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #2ecc71;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header-content {
+            position: relative;
+            z-index: 2;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .logo {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            animation: fadeInDown 1s ease;
+        }
+        
+        .tagline {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            opacity: 0.9;
+            animation: fadeIn 1.5s ease;
+        }
+        
+        .header-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') center/cover;
+            opacity: 0.2;
+            z-index: 1;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background-color: var(--accent);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            margin: 0 10px;
+            transition: all 0.3s ease;
+            animation: pulse 2s infinite;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+        
+        .section-title h2 {
+            font-size: 2.2rem;
+            color: var(--primary);
+            display: inline-block;
+            padding-bottom: 10px;
+        }
+        
+        .section-title h2:after {
+            content: '';
+            position: absolute;
+            width: 80px;
+            height: 3px;
+            background-color: var(--secondary);
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .training-modules {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+        
+        .module-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .module-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+        
+        .module-image {
+            height: 180px;
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .module-content {
+            padding: 1.5rem;
+        }
+        
+        .module-content h3 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+        
+        .module-content p {
+            color: #666;
+            margin-bottom: 1.5rem;
+        }
+        
+        .module-button {
+            display: inline-block;
+            background-color: var(--secondary);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: background-color 0.3s ease;
+        }
+        
+        .module-button:hover {
+            background-color: var(--primary);
+        }
+        
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            background: white;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .info-table th {
+            background-color: var(--primary);
+            color: white;
+            padding: 15px;
+            text-align: left;
+        }
+        
+        .info-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .info-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .info-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        .testimonial-section {
+            background-color: var(--primary);
+            color: white;
+            padding: 4rem 0;
+            text-align: center;
+        }
+        
+        .testimonials {
+            display: flex;
+            overflow-x: auto;
+            padding: 2rem 0;
+            scroll-snap-type: x mandatory;
+            gap: 2rem;
+        }
+        
+        .testimonial {
+            min-width: 300px;
+            background: rgba(255,255,255,0.1);
+            padding: 2rem;
+            border-radius: 10px;
+            scroll-snap-align: start;
+            transition: transform 0.3s ease;
+        }
+        
+        .testimonial:hover {
+            transform: scale(1.05);
+        }
+        
+        .testimonial-text {
+            font-style: italic;
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+        
+        .testimonial-text:before,
+        .testimonial-text:after {
+            content: '"';
+            font-size: 2rem;
+            color: rgba(255,255,255,0.3);
+            position: absolute;
+        }
+        
+        .testimonial-text:before {
+            top: -15px;
+            left: -10px;
+        }
+        
+        .testimonial-text:after {
+            bottom: -30px;
+            right: -10px;
+        }
+        
+        .testimonial-author {
+            font-weight: 700;
+            margin-top: 1rem;
+        }
+        
+        .progress-tracker {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin-bottom: 3rem;
+        }
+        
+        .progress-bar {
+            height: 10px;
+            background: #eee;
+            border-radius: 5px;
+            margin: 1rem 0;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--secondary), var(--success));
+            width: 0%;
+            transition: width 1s ease;
+        }
+        
+        .progress-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 0.5rem;
+        }
+        
+        .quiz-container {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin-bottom: 3rem;
+        }
+        
+        .quiz-question {
+            margin-bottom: 1.5rem;
+        }
+        
+        .quiz-options {
+            margin-left: 1.5rem;
+        }
+        
+        .quiz-option {
+            margin-bottom: 0.8rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 5px;
+            transition: background-color 0.2s ease;
+        }
+        
+        .quiz-option:hover {
+            background-color: #f0f8ff;
+        }
+        
+        .quiz-option input {
+            margin-right: 10px;
+        }
+        
+        .submit-btn {
+            background-color: var(--accent);
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+        }
+        
+        .submit-btn:hover {
+            background-color: #c0392b;
+        }
+        
+        .result {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            border-radius: 5px;
+            display: none;
+        }
+        
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        
+        footer {
+            background-color: var(--dark);
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            margin: 1rem 0;
+        }
+        
+        .footer-links a {
+            color: white;
+            margin: 0 15px;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: var(--secondary);
+        }
+        
+        .social-icons {
+            margin: 1.5rem 0;
+        }
+        
+        .social-icons a {
+            color: white;
+            margin: 0 10px;
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+        
+        .social-icons a:hover {
+            color: var(--secondary);
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        /* Mobile Navigation */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+        
+        .nav-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.9);
+            z-index: 999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        
+        .nav-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+        
+        .nav-overlay a {
+            color: white;
+            font-size: 1.5rem;
+            margin: 1rem 0;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-overlay a:hover {
+            color: var(--secondary);
+        }
+        
+        .close-btn {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            font-size: 2rem;
+            cursor: pointer;
+        }
+        
+        /* Media Queries */
+        @media (max-width: 768px) {
+            .training-modules {
+                grid-template-columns: 1fr;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .section-title h2 {
+                font-size: 1.8rem;
+            }
+            
+            .module-content h3 {
+                font-size: 1.2rem;
+            }
+            
+            .info-table {
+                display: block;
+                overflow-x: auto;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .logo {
+                font-size: 2rem;
+            }
+            
+            .tagline {
+                font-size: 1rem;
+            }
+            
+            .cta-button {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+            
+            .container {
+                padding: 1rem;
+            }
+            
+            .section-title h2 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-bg"></div>
+        <div class="header-content">
+            <button class="mobile-menu-btn">☰</button>
+            <div class="logo">Phillcode Agent Training</div>
+            <div class="tagline">Master the Art of Business Scouting, Client Acquisition, and Social Influence</div>
+            <a href="#modules" class="cta-button">Start Learning</a>
+            <a href="#quiz" class="cta-button">Take Assessment</a>
+        </div>
+    </header>
+  <div class="nav-overlay">
+    <span class="close-btn">×</span>
+    <a href="#modules">Training Modules</a>
+    <a href="businessesspoting.html">Spotting Businesses</a>
+    <a href="socials.html">Social Media Scouting</a>
+    <a href="psychology.html">Client Psychology</a>
+    <a href="intelligence.html">Discreet Intelligence</a>
+    <a href="groundscouting.html">Ground Scouting</a>
+    <a href="globalspoting.html">Global Expansion</a>
+    <a href="#business-types">Business Type Matrix</a>
+ <a href="index.html#quiz">Certification Test</a>
+</div>
+    
+    <div class="container">
+        <section id="modules">
+            <div class="section-title">
+                <h2>Agent Training Modules</h2>
+            </div>
+            
+            <div class="training-modules">
+                <div class="module-card">
+                    <div class="module-image" style="background-image: url('https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');"></div>
+                    <div class="module-content">
+                        <h3>Spotting Potential Businesses</h3>
+                        <p>Learn to identify businesses that need digital transformation, both locally and globally.</p>
+                        <a href="businessspoting.html" class="module-button">Start Module</a>
+                    </div>
+                </div>
+                
+                <div class="module-card">
+                    <div class="module-image" style="background-image: url('https://images.unsplash.com/photo-1611162616475-46b635cb6868?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');"></div>
+                    <div class="module-content">
+                        <h3>Social Media Scouting</h3>
+                        <p>Master techniques for finding leads on Facebook, Instagram, LinkedIn and more.</p>
+                        <a href="socials.html" class="module-button">Start Module</a>
+                    </div>
+                </div>
+                
+                <div class="module-card">
+                    <div class="module-image" style="background-image: url('https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');"></div>
+                    <div class="module-content">
+                        <h3>Client Psychology</h3>
+                        <p>Understand how to influence decisions using psychological principles.</p>
+                        <a href="psychology.html" class="module-button">Start Module</a>
+                    </div>
+                </div>
+                
+                <div class="module-card">
+                    <div class="module-image" style="background-image: url('https://images.unsplash.com/photo-1521791136064-7986c2920216?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');"></div>
+                    <div class="module-content">
+                        <h3>Information Gathering</h3>
+                        <p>Learn discreet methods to collect business information without raising suspicion.</p>
+                        <a href="intelligence.html" class="module-button">Start Module</a>
+                    </div>
+                </div>
+                
+                <div class="module-card">
+                    <div class="module-image" style="background-image: url('https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');"></div>
+                    <div class="module-content">
+                        <h3>Ground Scouting Techniques</h3>
+                        <p>Field strategies for identifying potential clients in physical locations.</p>
+                        <a href="groundscouting.html" class="module-button">Start Module</a>
+                    </div>
+                </div>
+                
+                <div class="module-card">
+                    <div class="module-image" style="background-image: url('https://images.unsplash.com/photo-1526628953301-3e589a6a8b74?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');"></div>
+                    <div class="module-content">
+                        <h3>Global Expansion</h3>
+                        <p>Strategies for moving from local to international client acquisition.</p>
+                        <a href="globalspoting.html" class="module-button">Start Module</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="business-types">
+            <div class="section-title">
+                <h2>Business Type Intelligence</h2>
+            </div>
+            
+            <table class="info-table">
+                <thead>
+                    <tr>
+                        <th>Business Type</th>
+                        <th>Key Information to Collect</th>
+                        <th>Best Approach</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Retail Shops</strong> (Clothes, Electronics)</td>
+                        <td>Inventory type, payment methods, delivery options, popular products</td>
+                        <td>Pose as customer asking about products and ordering process</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Restaurants/Food Sellers</strong></td>
+                        <td>Menu, delivery options, order methods, hours, location</td>
+                        <td>Ask about online ordering or reservations</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Gadget/Equipment Sellers</strong></td>
+                        <td>Product specs, stock availability, pricing, warranties</td>
+                        <td>Inquire about product details and after-sales support</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Service Businesses</strong> (Salons, Plumbers)</td>
+                        <td>Booking system, pricing, working hours, customer inquiries</td>
+                        <td>Ask about appointment scheduling and availability</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Cooperatives/Institutions</strong></td>
+                        <td>Services offered, target members, registration or loan services</td>
+                        <td>Position as digital solution for member engagement</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+   <section id="tools">
+    <div class="section-title">
+        <h2>Agent Toolkit</h2>
+    </div>
+    
+    <div class="training-modules">
+        <div class="module-card">
+            <div class="module-image" style="background-image: url('https://images.unsplash.com/photo-1558494949-ef010cbdcc31?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');"></div>
+            <div class="module-content">
+                <h3>Pitch Templates</h3>
+                <p>Pre-written messages for different business types and scenarios.</p>
+                <a href="resources.html" class="module-button">Get Templates</a>
+            </div>
+        </div>
+        
+        <div class="module-card">
+            <div class="module-image" style="background-image: url('https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');"></div>
+            <div class="module-content">
+                <h3>Client Information Form</h3>
+                <p>Structured questionnaire to collect all necessary business details.</p>
+                <a href="resources.html" class="module-button">Download Form</a>
+            </div>
+        </div>
+        
+        <div class="module-card">
+            <div class="module-image" style="background-image: url('https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');"></div>
+            <div class="module-content">
+                <h3>Social Media Scouting Guide</h3>
+                <p>Step-by-step instructions for finding leads on each platform.</p>
+                <a href="resources.html" class="module-button">Get Guide</a>
+            </div>
+        </div>
+    </div>
+</section>
+        
+        <section class="progress-tracker">
+            <h3>Your Training Progress</h3>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+            <div class="progress-stats">
+                <span>0% Complete</span>
+                <span>6 Modules</span>
+            </div>
+        </section>
+    </div>
+    
+    <section class="testimonial-section" id="testimonials">
+        <div class="container">
+            <div class="section-title">
+                <h2 style="color: white;">Agent Success Stories</h2>
+            </div>
+            
+            <div class="testimonials">
+                <div class="testimonial">
+                    <div class="testimonial-text">
+                        The training transformed how I approach businesses. I closed 3 deals in my first month!
+                    </div>
+                    <div class="testimonial-author">- Sarah K., Nairobi</div>
+                </div>
+                
+                <div class="testimonial">
+                    <div class="testimonial-text">
+                        Using the social media techniques, I found 15 potential clients in one week.
+                    </div>
+                    <div class="testimonial-author">- James M., Mombasa</div>
+                </div>
+                
+                <div class="testimonial">
+                    <div class="testimonial-text">
+                        The psychology module helped me understand client objections better. My conversion rate doubled.
+                    </div>
+                    <div class="testimonial-author">- Amina W., Kisumu</div>
+                </div>
+                
+                <div class="testimonial">
+                    <div class="testimonial-text">
+                        I expanded to international clients using the global strategies. Now I earn in dollars!
+                    </div>
+                    <div class="testimonial-author">- David O., Remote Agent</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <div class="container">
+<section id="quiz">
+    <div class="section-title">
+        <h2>Phillcode Agent Mastery Assessment</h2>
+        <p>Complete this comprehensive test to demonstrate your readiness as a Phillcode Agent</p>
+    </div>
+    
+    <div class="quiz-container">
+        <form id="training-quiz">
+            <!-- Section 1: Business Identification -->
+            <div class="quiz-section">
+                <h3>Section 1: Spotting Potential Businesses</h3>
+                
+                <div class="quiz-question">
+                    <p>1. You walk past a busy clothing boutique. Which of these observations suggests they could be a good Phillcode client?</p>
+                    <div class="quiz-options">
+                        <label class="quiz-option">
+                            <input type="radio" name="q1" value="a"> They have a handwritten "New Arrivals" sign in the window
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="q1" value="b"> Customers are asking if they can see more colors/sizes online
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="q1" value="c"> Their Facebook page only shows the street address
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="q1" value="d"> All of the above
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="quiz-question">
+                    <p>2. A restaurant owner says: "We're always packed, why would we need a website?" Your best response is:</p>
+                    <div class="quiz-options">
+                        <label class="quiz-option">
+                            <input type="radio" name="q2" value="a"> "You're right, you don't need one"
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="q2" value="b"> "A website could help manage your crowds by taking reservations and showing wait times"
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="q2" value="c"> "Because all successful businesses have websites"
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="q2" value="d"> "You're losing at least 30% of potential customers"
+                        </label>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section 2: Social Media Scouting -->
+            <div class="quiz-section">
+                <h3>Section 2: Social Media Scouting</h3>
+                
+                <div class="quiz-question">
+                    <p>3. When searching Instagram for potential clients, which hashtag combination would be most effective?</p>
+                    <div class="quiz-options">
+                        <label class="quiz-option">
+                            <input type="radio" name="q3" value="a"> #NairobiBusiness + #NoWebsite
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="q3" value="b"> #Kenya + #Beautiful
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="q3" value="c"> #Entrepreneur + #Success
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="q3" value="d"> #Marketing + #Tips
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="quiz-question">
+                    <p>4. You find a furniture maker on Facebook Marketplace with the description: "Custom orders - DM for details." What's your next move?</p>
+                    <div class="quiz-options">
+                        <label class="quiz-option">
+                            <input type="radio" name="q4" value="a"> Message asking "Do you have a website where I can see your full portfolio?"
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="q4" value="b"> Immediately send your Phillcode pitch
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="q4" value="c"> Ignore them because they're already using social media
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="q4" value="d"> Report their page for not having a website
+                        </label>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section 3: Client Psychology -->
+            <div class="quiz-section">
+                <h3>Section 3: Client Psychology</h3>
+                
+                <div class="quiz-question">
+                    <p>5. A business owner says: "I tried a website before and it didn't work." How do you respond using psychological principles?</p>
+                    <div class="quiz-options">
+                        <label class="quiz-option">
+                            <input type="radio" name="q5" value="a"> "You probably had a bad developer. We're much better."
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="q5" value="b"> "May I see your old site? I'll give you 3 free tips to improve it with no obligation."
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="q5" value="c"> "That's why you need to try again with us."
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="q5" value="d"> "Most businesses fail with their first website."
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="quiz-question">
+                    <p>6. To establish authority when first meeting a client, you should:</p>
+                    <div class="quiz-options">
+                        <label class="quiz-option">
+                            <input type="radio" name="q6" value="a"> Name-drop other clients you've helped
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="q6" value="b"> Show before/after examples of your work
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="q6" value="c"> Dress professionally
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="q6" value="d"> All of the above
+                        </label>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section 4: Discreet Information Gathering -->
+            <div class="quiz-section">
+                <h3>Section 4: Discreet Information Gathering</h3>
+                
+                <div class="quiz-question">
+                    <p>7. You want to assess a salon's booking system. The most natural approach is:</p>
+                    <div class="quiz-options">
+                        <label class="quiz-option">
+                            <input type="radio" name="q7" value="a"> Call and ask "How do I book an appointment?"
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="q7" value="b"> Walk in and ask to see their appointment book
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="q7" value="c"> Tell them you're from Phillcode and need information
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="q7" value="d"> Ask their competitors instead
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="quiz-question">
+                    <p>8. When checking a restaurant's digital presence, which action is LEAST effective?</p>
+                    <div class="quiz-options">
+                        <label class="quiz-option">
+                            <input type="radio" name="q8" value="a"> Google their name to see if a website appears
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="q8" value="b"> Asking a friend to attempt placing an online order
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="q8" value="c"> Demanding to see their website analytics
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="q8" value="d"> Checking if their social media links work
+                        </label>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section 5: Ground Scouting -->
+            <div class="quiz-section">
+                <h3>Section 5: Ground Scouting</h3>
+                
+                <div class="quiz-question">
+                    <p>9. At a local market, which stall is the BEST potential client?</p>
+                    <div class="quiz-options">
+                        <label class="quiz-option">
+                            <input type="radio" name="q9" value="a"> One with handwritten price tags and customers waiting
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="q9" value="b"> A stall with a QR code payment option
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="q9" value="c"> A vendor using a tablet to track inventory
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="q9" value="d"> The busiest stall in the market
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="quiz-question">
+                    <p>10. When approaching a shop owner in person, your first words should be:</p>
+                    <div class="quiz-options">
+                        <label class="quiz-option">
+                            <input type="radio" name="q10" value="a"> "You need a website to survive these days"
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="q10" value="b"> "I can see you're busy - have you considered taking orders online to save time?"
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="q10" value="c"> "I'm from Phillcode and you're required to hear my pitch"
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="q10" value="d"> "Your competitors all have websites now"
+                        </label>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section 6: Global Expansion -->
+            <div class="quiz-section">
+                <h3>Section 6: Global Expansion</h3>
+                
+                <div class="quiz-question">
+                    <p>11. The best way to find international clients on LinkedIn is to:</p>
+                    <div class="quiz-options">
+                        <label class="quiz-option">
+                            <input type="radio" name="q11" value="a"> Search for "small business owner" in target countries
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="q11" value="b"> Post about Kenyan web design trends
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="q11" value="c"> Connect with Fortune 500 CEOs
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="q11" value="d"> Send connection requests to everyone
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="quiz-question">
+                    <p>12. When dealing with timezone differences for international clients, you should:</p>
+                    <div class="quiz-options">
+                        <label class="quiz-option">
+                            <input type="radio" name="q12" value="a"> Only work with clients in your timezone
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="q12" value="b"> Use scheduling tools to find overlapping business hours
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="q12" value="c"> Ask clients to stay up late for meetings
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="q12" value="d"> Pretend you're in their timezone
+                        </label>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section 7: Practical Scenarios -->
+            <div class="quiz-section">
+                <h3>Section 7: Practical Scenarios</h3>
+                
+                <div class="quiz-question">
+                    <p>13. A client says: "I don't have money for a website right now." You respond:</p>
+                    <div class="quiz-options">
+                        <label class="quiz-option">
+                            <input type="radio" name="q13" value="a"> "Okay, maybe next year"
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="q13" value="b"> "Many clients earn back the cost within weeks through new customers"
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="q13" value="c"> "I'll give you 50% discount if you sign today"
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="q13" value="d"> "You can't afford NOT to have a website"
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="quiz-question">
+                    <p>14. A potential client hasn't responded to your follow-up. Your next step is:</p>
+                    <div class="quiz-options">
+                        <label class="quiz-option">
+                            <input type="radio" name="q14" value="a"> Send daily messages until they reply
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="q14" value="b"> Wait 3-5 days then share a relevant case study
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="q14" value="c"> Call their phone repeatedly
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="q14" value="d"> Mark them as uninterested
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="quiz-question">
+                    <p>15. When asked about your experience, you should:</p>
+                    <div class="quiz-options">
+                        <label class="quiz-option">
+                            <input type="radio" name="q15" value="a"> Admit you're new but trained by Phillcode
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="q15" value="b"> Share success stories of similar clients
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="q15" value="c"> Offer a free mini-audit of their current presence
+                        </label>
+                        <label class="quiz-option">
+                            <input type="radio" name="q15" value="d"> All of the above
+                        </label>
+                    </div>
+                </div>
+            </div>
+            
+            <button type="button" class="submit-btn" id="submit-quiz">Submit Assessment</button>
+            
+            <div class="result" id="quiz-result"></div>
+        </form>
+    </div>
+</section>
+
+<style>
+.quiz-section {
+    background: white;
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+}
+
+.quiz-section h3 {
+    color: var(--primary);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--light);
+}
+
+.quiz-question {
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px dashed #eee;
+}
+
+.quiz-question:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+</style>
+
+<script>
+document.getElementById('submit-quiz').addEventListener('click', function() {
+    const answers = {
+        q1: "d", q2: "b", q3: "a", q4: "a", q5: "b",
+        q6: "d", q7: "a", q8: "c", q9: "a", q10: "b",
+        q11: "a", q12: "b", q13: "b", q14: "b", q15: "d"
+    };
+    
+    let score = 0;
+    const totalQuestions = Object.keys(answers).length;
+    
+    for (let question in answers) {
+        const selectedOption = document.querySelector(`input[name="${question}"]:checked`);
+        if (selectedOption && selectedOption.value === answers[question]) {
+            score++;
+        }
+    }
+    
+    const percentage = Math.round((score / totalQuestions) * 100);
+    const resultDiv = document.getElementById('quiz-result');
+    
+    resultDiv.style.display = 'block';
+    resultDiv.innerHTML = `<h3>Your Score: ${score}/${totalQuestions} (${percentage}%)</h3>`;
+    
+    if (percentage >= 90) {
+        resultDiv.className = 'result success';
+        resultDiv.innerHTML += `
+            <p>Excellent! You've demonstrated mastery of all Phillcode agent skills.</p>
+            <p><strong>Next Steps:</strong></p>
+            <ul>
+                <li>You'll receive your official Phillcode Agent certification</li>
+                <li>Access the agent portal for tools and resources</li>
+                <li>Start scouting with confidence!</li>
+            </ul>
+        `;
+    } else if (percentage >= 70) {
+        resultDiv.className = 'result warning';
+        resultDiv.innerHTML += `
+            <p>Good effort! Review these areas before working with clients:</p>
+            <ul>
+                <li>${percentage < 80 ? 'Business identification techniques' : ''}</li>
+                <li>${percentage < 80 ? 'Client psychology principles' : ''}</li>
+                <li>${percentage < 90 ? 'Objection handling strategies' : ''}</li>
+            </ul>
+            <p>Re-take the assessment after reviewing the training materials.</p>
+        `;
+    } else {
+        resultDiv.className = 'result error';
+        resultDiv.innerHTML += `
+            <p>More training needed. Please thoroughly review all modules before re-attempting.</p>
+            <p>Focus on:</p>
+            <ul>
+                <li>Spotting potential clients</li>
+                <li>Approach strategies</li>
+                <li>Client communication</li>
+            </ul>
+        `;
+    }
+    
+    // Scroll to results
+    resultDiv.scrollIntoView({ behavior: 'smooth' });
+});
+</script>
+    </div>
+    
+    <footer>
+        <div class="logo">Phillcode</div>
+        <div class="tagline">Bridging Offline Hustle with Online Presence</div>
+        
+        <div class="footer-links">
+            <a href="#">About</a>
+            <a href="#">Training</a>
+            <a href="#">Resources</a>
+            <a href="#">Contact</a>
+            <a href="#">Privacy</a>
+        </div>
+        
+        <div class="social-icons">
+            <a href="#"><i class="fab fa-facebook">f</i></a>
+            <a href="#"><i class="fab fa-twitter">t</i></a>
+            <a href="#"><i class="fab fa-instagram">i</i></a>
+            <a href="#"><i class="fab fa-linkedin">in</i></a>
+            <a href="#"><i class="fab fa-whatsapp">w</i></a>
+        </div>
+        
+        <div class="copyright">
+            &copy; 2023 Phillcode Agent Network. All rights reserved.
+        </div>
+    </footer>
+    
+    <script>
+        // Mobile menu functionality
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const navOverlay = document.querySelector('.nav-overlay');
+        const closeBtn = document.querySelector('.close-btn');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            navOverlay.classList.add('active');
+        });
+        
+        closeBtn.addEventListener('click', () => {
+            navOverlay.classList.remove('active');
+        });
+        
+        // Close overlay when clicking a link
+        const navLinks = document.querySelectorAll('.nav-overlay a');
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                navOverlay.classList.remove('active');
+            });
+        });
+        
+        // Progress bar animation
+        window.addEventListener('load', () => {
+            const progressFill = document.getElementById('progress-fill');
+            let width = 0;
+            const interval = setInterval(() => {
+                if (width >= 35) {
+                    clearInterval(interval);
+                } else {
+                    width++;
+                    progressFill.style.width = width + '%';
+                    document.querySelector('.progress-stats span:first-child').textContent = width + '% Complete';
+                }
+            }, 30);
+        });
+
+        // Animate modules on scroll
+        const moduleCards = document.querySelectorAll('.module-card');
+        
+        const animateOnScroll = () => {
+            moduleCards.forEach((card, index) => {
+                const cardPosition = card.getBoundingClientRect().top;
+                const screenPosition = window.innerHeight / 1.3;
+                
+                if (cardPosition < screenPosition) {
+                    card.style.animation = `fadeInUp 0.5s ease forwards ${index * 0.1}s`;
+                }
+            });
+        };
+        
+        window.addEventListener('scroll', animateOnScroll);
+        animateOnScroll(); // Run once on load
+    </script>
+</body>
+</html>
